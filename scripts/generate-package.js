@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 const { existsSync } = require('fs')
-const { join, resolve } = require('path')
+const { join, resolve, extname } = require('path')
+const glob = require('tiny-glob')
 
 const fs = require('fs').promises
 
@@ -16,7 +17,27 @@ async function main() {
   const pkgJson = join(__dirname, '..', './package.json')
   const pkg = require.resolve(pkgJson) && require(pkgJson)
 
+  const source = join(__dirname, '../src')
+  const distPath = join(__dirname, '../dist')
+  const entries = await glob('*.{js,ts,tsx}', { cwd: source })
+
   const minimalPkg = trimPackageJSON(pkg)
+
+  entries.forEach(entry => {
+    if (entry === 'index.js') return
+    if (existsSync(join(distPath, entry))) {
+      const ext = extname(entry)
+      minimalPkg.exports['./' + entry.replace(ext, '')] = {
+        import: './' + entry.replace(ext, '.mjs'),
+        require: './' + entry.replace(ext, '.js'),
+        types: './' + entry.replace(ext, '.d.ts'),
+      }
+    }
+  })
+
+  minimalPkg.exports = {
+    ...minimalPkg.exports,
+  }
 
   await fs.writeFile(
     './dist/package.json',

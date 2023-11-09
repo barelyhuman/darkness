@@ -25,7 +25,14 @@ async function main() {
 
   entries.forEach(entry => {
     if (entry === 'index.js') return
-    if (existsSync(join(distPath, entry))) {
+    const ext = extname(entry)
+    const distAssetExts = ['.js', '.mjs']
+
+    const assetsExist = distAssetExts.every(x =>
+      existsSync(join(distPath, entry.replace(ext, x)))
+    )
+
+    if (assetsExist) {
       const ext = extname(entry)
       minimalPkg.exports['./' + entry.replace(ext, '')] = {
         import: './' + entry.replace(ext, '.mjs'),

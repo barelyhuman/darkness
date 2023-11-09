@@ -1,13 +1,28 @@
 {
+  "dist/box.d.ts": {
+    "size": "1.187KB",
+    "brotli": "341B",
+    "gzip": "405B"
+  },
+  "dist/button.d.ts": {
+    "size": "231B",
+    "brotli": "157B",
+    "gzip": "190B"
+  },
+  "dist/text.d.ts": {
+    "size": "219B",
+    "brotli": "154B",
+    "gzip": "175B"
+  },
   "dist/box.js": {
     "size": "1.514KB",
     "brotli": "619B",
     "gzip": "646B"
   },
   "dist/button.js": {
-    "size": "1.745KB",
-    "brotli": "656B",
-    "gzip": "725B"
+    "size": "1.747KB",
+    "brotli": "655B",
+    "gzip": "726B"
   },
   "dist/text.js": {
     "size": "1.729KB",
